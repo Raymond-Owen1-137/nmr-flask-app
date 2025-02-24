@@ -1,4 +1,5 @@
-const BACKEND_URL = "https://nmr-backend.onrender.com"; // Use your Render Flask API URL
+const BACKEND_URL = "https://premai.onrender.com";  // ✅ Correct URL
+
 
 function predictResidue() {
     const cShift = document.querySelector("#c_shift").value.trim();
