@@ -9,21 +9,23 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 # ✅ Initialize Flask App
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
-# ✅ Debug: Print Working Directory
-print(" Current Working Directory:", os.getcwd())
+# ✅ Debugging: Print Working Directory
+print("📂 Current Working Directory:", os.getcwd())
 
-# ✅ Ensure Model File Exists Before Loading
+# ✅ Ensure Model File Exists
 MODEL_PATH = os.path.abspath("residue_model.h5")
 if not os.path.exists(MODEL_PATH):
-    raise FileNotFoundError(f" ERROR: Model file not found at {MODEL_PATH}")
+    print(f"❌ ERROR: Model file not found at {MODEL_PATH}")
+    raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
 
 # ✅ Load Pretrained Model
 model_residue = keras.models.load_model(MODEL_PATH)
 
-# ✅ Ensure Training Data Exists Before Loading
+# ✅ Ensure Training Data Exists
 DATA_PATH = os.path.abspath("nmr_training_data.csv")
 if not os.path.exists(DATA_PATH):
-    raise FileNotFoundError(f" ERROR: Training data not found at {DATA_PATH}")
+    print(f"❌ ERROR: Training data not found at {DATA_PATH}")
+    raise FileNotFoundError(f"Training data not found at {DATA_PATH}")
 
 # ✅ Load Training Data for Normalization & Encoding
 df = pd.read_csv(DATA_PATH)
@@ -42,9 +44,9 @@ features = ["C_Shift", "CA_Shift", "CB_Shift"]
 df = df.dropna(subset=features)
 scaler = StandardScaler().fit(df[features])
 
-# ✅ Debug Info
+# ✅ Debugging Info
 print("✅ Valid Residues:", list(label_encoder_residue.classes_))
-print("✅ Flask Server Running at: http://127.0.0.1:5000/")
+print("✅ Flask Server Running...")
 
 # -----------------------------------------------------
 # ✅ ROUTES
@@ -53,30 +55,32 @@ print("✅ Flask Server Running at: http://127.0.0.1:5000/")
 @app.route("/")
 def home():
     """Serve the Frontend (index.html)"""
-    return render_template("index.html")
+    try:
+        return render_template("index.html")  # Ensure /templates/index.html exists
+    except Exception as e:
+        return f"⚠️ Error loading index.html: {str(e)}"
 
 @app.route("/predict", methods=["POST"])
 def predict():
     """Handle Residue Prediction (Top 5 Residues)"""
     try:
-        # ✅ Debugging - Print Request Data
-        print(" Incoming Request Data:", request.json)
+        # ✅ Debugging - Print Incoming Request Data
+        print("🔍 Incoming Request Data:", request.json)
 
         # ✅ Get JSON Data from Frontend
         data = request.json
         if not data:
-            raise ValueError("No data received!")
+            raise ValueError("⚠️ No data received!")
 
         # ✅ Ensure Required Keys Exist
-        if "C" not in data or "CA" not in data or "CB" not in data:
-            raise KeyError("Missing required chemical shift values (C, CA, CB)!")
+        for key in ["C", "CA", "CB"]:
+            if key not in data:
+                raise KeyError(f"⚠️ Missing required value: {key}")
 
-        c = float(data["C"])
-        ca = float(data["CA"])
-        cb = float(data["CB"])
+        c, ca, cb = float(data["C"]), float(data["CA"]), float(data["CB"])
 
         # ✅ Debugging - Print Parsed Values
-        print(f"Parsed Values: C={c}, CA={ca}, CB={cb}")
+        print(f"🔢 Parsed Values: C={c}, CA={ca}, CB={cb}")
 
         # ✅ Normalize Input Data
         test_sample = pd.DataFrame([[c, ca, cb]], columns=scaler.feature_names_in_)
@@ -113,8 +117,10 @@ def predict():
 
 
 # -----------------------------------------------------
-# ✅ Run Flask Server
+# ✅ Run Flask Server (Supports Render Deployment)
 # -----------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render provides a PORT env variable
+    app.run(host="0.0.0.0", port=port, debug=True)
+
