@@ -1,0 +1,89 @@
+/* General Styling */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8; /* Light Apple-style background */
+    color: #333;
+}
+
+/* Header */
+header {
+    background: linear-gradient(180deg, #f7931a, #ffaf45); /* Soft orange gradient */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 3px solid #e67e22;
+}
+
+/* Main Container */
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+/* Sections */
+section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fdfdfd; /* Off-white Apple look */
+    border: 1px solid #ddd;
+}
+
+/* Input Fields */
+input, button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #e67e22;
+    border-radius: 6px;
+    font-size: 16px;
+    background: #f9f9f9;
+    color: #333;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Buttons */
+button {
+    background: #f7931a;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: #e67e22;
+    transform: scale(1.03);
+}
+
+/* Results */
+.results {
+    background: #fffaf3;
+    color: #d35400;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #e67e22;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 12px;
+    background: #ffaf45;
+    color: white;
+    margin-top: 20px;
+    font-size: 14px;
+    border-top: 3px solid #e67e22;
+    border-radius: 0 0 10px 10px;
+}
