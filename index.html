@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NMR Residue Predictor</title>
+    <script>
+        async function predictResidue() {
+            let c = document.getElementById("c_shift").value;
+            let ca = document.getElementById("ca_shift").value;
+            let cb = document.getElementById("cb_shift").value;
+
+            let response = await fetch("https://yourapp.onrender.com/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "C_Shift": c, "CA_Shift": ca, "CB_Shift": cb })
+            });
+
+            let result = await response.json();
+            document.getElementById("prediction").innerText = "Predicted Residue: " + result.Predicted_Residue;
+        }
+    </script>
+</head>
+<body>
+    <h1>NMR Residue Predictor</h1>
+    <label>C Shift:</label>
+    <input type="number" id="c_shift"><br>
+    <label>CA Shift:</label>
+    <input type="number" id="ca_shift"><br>
+    <label>CB Shift:</label>
+    <input type="number" id="cb_shift"><br>
+    <button onclick="predictResidue()">Predict Residue</button>
+    <h2 id="prediction"></h2>
+</body>
+</html>
