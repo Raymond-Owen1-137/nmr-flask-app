@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PREMAI - NMR Residue Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <header>
+        PREMAI - NMR Residue Predictor
+    </header>
+
+    <main>
+        <!-- Upload Section -->
+
+        <!-- Parameter Inputs -->
+        <section>
+            <h2>Enter Chemical Shifts</h2>
+            <input type="number" id="c_shift" placeholder="C Shift">
+            <input type="number" id="ca_shift" placeholder="Cα Shift">
+            <input type="number" id="cb_shift" placeholder="Cβ Shift">
+            <button onclick="predictResidue()">Run Analysis</button>
+        </section>
+
+        <!-- Results Display -->
+        <section class="results">
+            <h2>Results</h2>
+            <div id="output">No results yet...</div>
+        </section>
+    </main>
+
+    <footer>
+        © 2025 PREMAI | NMR Residue Mapping
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
